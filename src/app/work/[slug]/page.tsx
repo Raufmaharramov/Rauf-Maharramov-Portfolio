@@ -85,6 +85,8 @@ export default function CaseStudyPage({ params }: PageProps) {
                   ) : (
                     <a
                       href={study.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent-600 px-4 py-2 text-sm font-medium text-white transition-colors duration-150 hover:bg-accent-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600"
                     >
                       View SEO Core Web Vitals Dashboard Demo
