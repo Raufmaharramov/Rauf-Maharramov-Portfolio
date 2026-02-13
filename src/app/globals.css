@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100;
+  }
+
+  ::selection {
+    @apply bg-accent-500 text-white dark:bg-accent-400 dark:text-neutral-900;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent-600 dark:outline-accent-400;
+  }
+}
+
+@layer components {
+  .prose-custom h2 {
+    @apply mb-4 mt-12 text-2xl font-semibold text-neutral-900 dark:text-white;
+  }
+
+  .prose-custom h3 {
+    @apply mb-3 mt-8 text-xl font-semibold text-neutral-900 dark:text-white;
+  }
+
+  .prose-custom p {
+    @apply mb-4 leading-relaxed text-neutral-600 dark:text-neutral-400;
+  }
+
+  .prose-custom ul {
+    @apply mb-4 list-disc space-y-2 pl-6 text-neutral-600 dark:text-neutral-400;
+  }
+
+  .prose-custom li {
+    @apply leading-relaxed;
+  }
+
+  .prose-custom strong {
+    @apply font-semibold text-neutral-900 dark:text-white;
+  }
+
+  .prose-custom code {
+    @apply rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-sm dark:bg-neutral-800;
+  }
+}

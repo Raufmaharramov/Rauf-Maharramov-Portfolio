@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Core Web Vitals Report</title>
+ <style>
+:root {
+ --color-bg: #0a0e14;
+ --color-surface: #131920;
+ --color-surface-raised: #1a222c;
+ --color-border: #2a3441;
+ --color-text: #c9d1d9;
+ --color-text-muted: #6e7a8a;
+ --color-text-bright: #f0f6fc;
+ --color-good: #00d26a;
+ --color-good-bg: rgba(0, 210, 106, 0.12);
+ --color-good-glow: rgba(0, 210, 106, 0.3);
+ --color-warning: #ffaa00;
+ --color-warning-bg: rgba(255, 170, 0, 0.12);
+ --color-warning-glow: rgba(255, 170, 0, 0.3);
+ --color-poor: #ff4757;
+ --color-poor-bg: rgba(255, 71, 87, 0.12);
+ --color-poor-glow: rgba(255, 71, 87, 0.3);
+ --color-error: #ff4757;
+ --color-unknown: #6e7a8a;
+ --color-accent: #58a6ff;
+ --color-accent-hover: #79b8ff;
+ --font-sans: 'DM Sans', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+ --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+ --radius-sm: 6px;
+ --radius-md: 10px;
+ --radius-lg: 16px;
+ --radius-xl: 24px;
+ --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+ --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+ --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+ --shadow-glow: 0 0 40px rgba(88, 166, 255, 0.15);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+ margin: 0; padding: 0;
+ font-family: var(--font-sans); font-size: 14px; line-height: 1.6;
+ color: var(--color-text); background: var(--color-bg);
+ background-image:
+ radial-gradient(ellipse at 50% 0%, rgba(88, 166, 255, 0.08) 0%, transparent 50%),
+ radial-gradient(ellipse at 100% 100%, rgba(0, 210, 106, 0.05) 0%, transparent 50%);
+ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+a { color: var(--color-accent); text-decoration: none; transition: color 0.15s ease; }
+a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes drawCircle { from { stroke-dashoffset: 314; } }
+@keyframes slideRight { from { width: 0; } }
+@keyframes countUp { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+.header {
+ background: linear-gradient(180deg, var(--color-surface) 0%, transparent 100%);
+ border-bottom: 1px solid var(--color-border); padding: 1.5rem 2rem;
+ position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px);
+}
+.header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.title { margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--color-text-bright); display: flex; align-items: center; gap: 0.75rem; letter-spacing: -0.02em; }
+.title::before { content: '\1F4CA'; font-size: 1.25rem; }
+.meta { color: var(--color-text-muted); font-size: 0.8rem; }
+.main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+.footer { text-align: center; padding: 2rem; color: var(--color-text-muted); font-size: 0.8rem; border-top: 1px solid var(--color-border); margin-top: 3rem; }
+.hero-stats { display: grid; grid-template-columns: 280px 1fr; gap: 2rem; margin-bottom: 2rem; padding: 2rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); animation: fadeInUp 0.6s ease-out; }
+.hero-left { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.hero-right { display: flex; flex-direction: column; gap: 2rem; }
+.donut-chart-container { position: relative; width: 180px; height: 180px; }
+.donut-chart { width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut-hole { fill: var(--color-surface); }
+.donut-segment { fill: none; stroke-width: 12; stroke-linecap: round; animation: drawCircle 1.5s ease-out forwards; }
+.donut-good { stroke: var(--color-good); filter: drop-shadow(0 0 8px var(--color-good-glow)); }
+.donut-warning { stroke: var(--color-warning); filter: drop-shadow(0 0 8px var(--color-warning-glow)); }
+.donut-poor { stroke: var(--color-poor); filter: drop-shadow(0 0 8px var(--color-poor-glow)); }
+.donut-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.donut-percent { display: block; font-size: 2.5rem; font-weight: 800; color: var(--color-text-bright); line-height: 1; letter-spacing: -0.03em; }
+.donut-label { display: block; font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+.donut-legend { display: flex; flex-direction: column; gap: 0.5rem; }
+.legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--color-text); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.legend-dot.good { background: var(--color-good); box-shadow: 0 0 8px var(--color-good-glow); }
+.legend-dot.warning { background: var(--color-warning); box-shadow: 0 0 8px var(--color-warning-glow); }
+.legend-dot.poor { background: var(--color-poor); box-shadow: 0 0 8px var(--color-poor-glow); }
+.score-rings { display: flex; gap: 2rem; justify-content: center; }
+.score-ring-container { position: relative; width: 120px; height: 120px; }
+.score-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--color-surface-raised); stroke-width: 8; }
+.ring-progress { fill: none; stroke-width: 8; stroke-linecap: round; animation: drawCircle 1.5s ease-out forwards; }
+.ring-progress.good { stroke: var(--color-good); filter: drop-shadow(0 0 6px var(--color-good-glow)); }
+.ring-progress.warning { stroke: var(--color-warning); filter: drop-shadow(0 0 6px var(--color-warning-glow)); }
+.ring-progress.poor { stroke: var(--color-poor); filter: drop-shadow(0 0 6px var(--color-poor-glow)); }
+.ring-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.ring-value { display: block; font-size: 1.75rem; font-weight: 800; color: var(--color-text-bright); line-height: 1; }
+.ring-label { display: block; font-size: 0.65rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+.key-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.key-metric { background: var(--color-surface-raised); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1rem; }
+.metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.metric-name { font-size: 0.75rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.metric-value-main { font-size: 1.25rem; font-weight: 700; font-family: var(--font-mono); }
+.metric-value-main.good { color: var(--color-good); }
+.metric-value-main.warning { color: var(--color-warning); }
+.metric-value-main.poor { color: var(--color-poor); }
+.metric-bar-container { position: relative; margin-bottom: 0.5rem; }
+.metric-bar-bg { display: flex; height: 8px; border-radius: 4px; overflow: hidden; }
+.metric-zone { transition: opacity 0.3s ease; }
+.metric-zone.good { background: linear-gradient(90deg, var(--color-good), rgba(0, 210, 106, 0.6)); }
+.metric-zone.warning { background: linear-gradient(90deg, var(--color-warning), rgba(255, 170, 0, 0.6)); }
+.metric-zone.poor { background: linear-gradient(90deg, var(--color-poor), rgba(255, 71, 87, 0.4)); }
+.metric-marker { position: absolute; top: -2px; width: 4px; height: 12px; background: var(--color-text-bright); border-radius: 2px; box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); transform: translateX(-50%); animation: pulse 2s ease-in-out infinite; }
+.metric-thresholds { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+.summary-section { margin-bottom: 2rem; animation: fadeInUp 0.6s ease-out 0.1s both; }
+.section-title { font-size: 1.1rem; font-weight: 700; color: var(--color-text-bright); margin: 0 0 1rem 0; letter-spacing: -0.02em; }
+.summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+.summary-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.summary-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.summary-card.status-good { border-color: var(--color-good); background: var(--color-good-bg); }
+.summary-card.status-warning { border-color: var(--color-warning); background: var(--color-warning-bg); }
+.summary-card.status-poor { border-color: var(--color-poor); background: var(--color-poor-bg); }
+.summary-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.summary-value { font-size: 2rem; font-weight: 800; color: var(--color-text-bright); font-variant-numeric: tabular-nums; line-height: 1; }
+.summary-label { font-size: 0.7rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.5rem; }
+.brand-comparison-section { margin-bottom: 2rem; padding: 1.5rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); animation: fadeInUp 0.6s ease-out 0.2s both; }
+.brand-bars { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+.brand-bar-row { display: flex; align-items: center; gap: 1rem; }
+.brand-bar-label { width: 50px; font-size: 0.85rem; font-weight: 700; color: var(--brand-color); text-align: right; }
+.brand-bar-track { flex: 1; height: 32px; background: var(--color-surface-raised); border-radius: var(--radius-sm); overflow: hidden; position: relative; }
+.brand-bar-fill { height: 100%; width: var(--score); background: linear-gradient(90deg, var(--brand-color), color-mix(in srgb, var(--brand-color) 70%, white)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: flex-end; padding-right: 0.75rem; animation: slideRight 1s ease-out forwards; box-shadow: 0 0 20px color-mix(in srgb, var(--brand-color) 30%, transparent); }
+.brand-bar-value { font-size: 0.9rem; font-weight: 700; color: white; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
+.score-scale { display: flex; border-radius: var(--radius-sm); overflow: hidden; font-size: 0.7rem; font-weight: 600; }
+.scale-zone { flex: 1; padding: 0.5rem; text-align: center; color: white; }
+.scale-zone.poor { background: var(--color-poor); }
+.scale-zone.warning { background: var(--color-warning); }
+.scale-zone.good { background: var(--color-good); }
+.brand-nav { display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; position: sticky; top: 70px; background: var(--color-bg); padding: 1rem 0; z-index: 50; animation: fadeInUp 0.6s ease-out 0.3s both; }
+.brand-nav-item { display: inline-flex; align-items: center; padding: 0.6rem 1.5rem; background: var(--color-surface); border: 2px solid var(--brand-color, var(--color-border)); border-radius: var(--radius-md); color: var(--color-text-bright); font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: all 0.2s ease; }
+.brand-nav-item:hover { background: var(--brand-color, var(--color-accent)); color: white; text-decoration: none; transform: translateY(-2px); box-shadow: 0 4px 12px color-mix(in srgb, var(--brand-color) 40%, transparent); }
+.brands-container { display: flex; flex-direction: column; gap: 2rem; }
+.brand-section { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; scroll-margin-top: 130px; animation: fadeInUp 0.6s ease-out both; }
+.brand-section:nth-child(1) { animation-delay: 0.4s; }
+.brand-section:nth-child(2) { animation-delay: 0.5s; }
+.brand-section:nth-child(3) { animation-delay: 0.6s; }
+.brand-section:nth-child(4) { animation-delay: 0.7s; }
+.brand-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: linear-gradient(90deg, var(--brand-color, var(--color-accent)) 0%, transparent 100%); border-bottom: 1px solid var(--color-border); }
+.brand-header-left { display: flex; align-items: center; gap: 1rem; }
+.brand-header-right { display: flex; align-items: center; gap: 1rem; }
+.brand-title { margin: 0; font-size: 1.25rem; font-weight: 800; color: white; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); letter-spacing: -0.02em; }
+.brand-mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 24px; }
+.mini-bar { width: 6px; border-radius: 2px; transition: height 0.3s ease; }
+.mini-bar.good { background: var(--color-good); }
+.mini-bar.warning { background: var(--color-warning); }
+.mini-bar.poor { background: var(--color-poor); }
+.brand-avg-score { font-size: 0.85rem; font-weight: 700; color: white; background: rgba(0, 0, 0, 0.25); padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); }
+.page-count { font-size: 0.8rem; color: rgba(255, 255, 255, 0.8); background: rgba(0, 0, 0, 0.2); padding: 0.25rem 0.75rem; border-radius: var(--radius-sm); }
+.table-wrapper { overflow-x: auto; }
+.metrics-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.metrics-table thead { background: var(--color-surface-raised); }
+.metrics-table th { padding: 0.875rem 1rem; text-align: left; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.08em; border-bottom: 1px solid var(--color-border); white-space: nowrap; }
+.metrics-table th.col-metric, .metrics-table th.col-score, .metrics-table th.col-status { text-align: center; }
+.metrics-table tbody tr { transition: background-color 0.15s ease; }
+.metrics-table tbody tr:hover { background: var(--color-surface-raised); }
+.metrics-table tbody tr:not(:last-child) td { border-bottom: 1px solid var(--color-border); }
+.metrics-table td { padding: 0.875rem 1rem; vertical-align: middle; }
+.page-name { font-weight: 500; color: var(--color-text-bright); }
+.page-name a { color: inherit; }
+.page-name a:hover { color: var(--color-accent); }
+.metric-cell, .score-cell { text-align: center; font-family: var(--font-mono); font-weight: 500; }
+.metric-value, .score-value { display: inline-block; padding: 0.25rem 0.6rem; border-radius: var(--radius-sm); min-width: 60px; font-size: 0.8rem; }
+.status-good .metric-value, .status-good .score-value { color: var(--color-good); background: var(--color-good-bg); }
+.status-warning .metric-value, .status-warning .score-value { color: var(--color-warning); background: var(--color-warning-bg); }
+.status-poor .metric-value, .status-poor .score-value { color: var(--color-poor); background: var(--color-poor-bg); }
+.status-error .metric-value, .status-error .score-value { color: var(--color-error); background: rgba(255, 71, 87, 0.12); }
+.status-unknown .metric-value, .status-unknown .score-value { color: var(--color-unknown); background: rgba(110, 122, 138, 0.12); }
+.status-cell { text-align: center; }
+.status-badge { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 700; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.05em; }
+.status-good .status-badge { background: var(--color-good-bg); color: var(--color-good); }
+.status-warning .status-badge { background: var(--color-warning-bg); color: var(--color-warning); }
+.status-poor .status-badge { background: var(--color-poor-bg); color: var(--color-poor); }
+.status-error .status-badge { background: rgba(255, 71, 87, 0.12); color: var(--color-error); }
+.legend-section { margin-top: 2rem; padding: 1.5rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); animation: fadeInUp 0.6s ease-out 0.8s both; }
+.legend-title { margin: 0 0 1rem 0; font-size: 1rem; font-weight: 700; color: var(--color-text-bright); }
+.thresholds-visual { display: flex; flex-direction: column; gap: 0.75rem; }
+.threshold-row { display: flex; align-items: center; gap: 1rem; }
+.threshold-label { width: 50px; font-size: 0.8rem; font-weight: 700; color: var(--color-text); font-family: var(--font-mono); }
+.threshold-bar { flex: 1; display: flex; height: 28px; border-radius: var(--radius-sm); overflow: hidden; }
+.threshold-zone { display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; color: white; font-family: var(--font-mono); }
+.threshold-zone.good { background: linear-gradient(90deg, var(--color-good), color-mix(in srgb, var(--color-good) 70%, black)); }
+.threshold-zone.warning { background: linear-gradient(90deg, var(--color-warning), color-mix(in srgb, var(--color-warning) 70%, black)); }
+.threshold-zone.poor { background: linear-gradient(90deg, var(--color-poor), color-mix(in srgb, var(--color-poor) 70%, black)); }
+.note { margin-top: 1rem; font-size: 0.75rem; color: var(--color-text-muted); font-style: italic; }
+@media (max-width: 1024px) {
+ .hero-stats { grid-template-columns: 1fr; }
+ .hero-left { flex-direction: row; justify-content: center; }
+ .key-metrics { grid-template-columns: 1fr; }
+ .summary-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+ .header { padding: 1rem; }
+ .header-content { flex-direction: column; align-items: flex-start; }
+ .main { padding: 1rem; }
+ .hero-stats { padding: 1.5rem; }
+ .hero-left { flex-direction: column; }
+ .score-rings { flex-wrap: wrap; }
+ .brand-nav { top: 60px; }
+ .summary-grid { grid-template-columns: repeat(2, 1fr); }
+ .metrics-table { font-size: 0.75rem; }
+ .metrics-table th, .metrics-table td { padding: 0.5rem; }
+ .brand-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+ .brand-header-right { width: 100%; justify-content: space-between; }
+}
+@media print {
+ body { background: white; color: black; }
+ .header { position: static; }
+ .brand-nav { display: none; }
+ .brand-section { break-inside: avoid; }
+ .hero-stats, .summary-section, .brand-comparison-section, .brand-section, .legend-section { animation: none; }
+ .status-good .metric-value, .status-good .score-value, .status-good .status-badge { color: #15803d !important; background: #dcfce7 !important; }
+ .status-warning .metric-value, .status-warning .score-value, .status-warning .status-badge { color: #b45309 !important; background: #fef3c7 !important; }
+ .status-poor .metric-value, .status-poor .score-value, .status-poor .status-badge { color: #dc2626 !important; background: #fee2e2 !important; }
+}
+ </style>
+</head>
+<body>
+ <header class="header">
+ <div class="header-content">
+ <h1 class="title">Core Web Vitals Report</h1>
+ <div class="meta">
+ <span class="timestamp">Generated: 2/13/2026, 12:03:10 PM</span>
+ </div>
+ </div>
+ </header>
+
+ <main class="main">
+ <!-- Hero Stats Section -->
+ <section class="hero-stats">
+ <div class="hero-left">
+ 
+ <div class="donut-chart-container">
+ <svg class="donut-chart" viewBox="0 0 100 100">
+ <circle class="donut-hole" cx="50" cy="50" r="35"/>
+ <circle class="donut-segment donut-warning" cx="50" cy="50" r="35"
+ stroke-dasharray="7.330382858376184 212.5811028929093"
+ stroke-dashoffset="54.97787143782138"/><circle class="donut-segment donut-poor" cx="50" cy="50" r="35"
+ stroke-dasharray="212.58110289290934 7.3303828583761685"
+ stroke-dashoffset="47.647488579445195"/>
+ </svg>
+ <div class="donut-center">
+ <span class="donut-percent">0%</span>
+ <span class="donut-label">Pass Rate</span>
+ </div>
+ </div>
+ <div class="donut-legend">
+ <div class="legend-item">
+ <span class="legend-dot good"></span>
+ <span>Good: 0</span>
+ </div>
+ <div class="legend-item">
+ <span class="legend-dot warning"></span>
+ <span>Needs Work: 1</span>
+ </div>
+ <div class="legend-item">
+ <span class="legend-dot poor"></span>
+ <span>Poor: 29</span>
+ </div>
+ </div>
+ 
+ </div>
+
+ <div class="hero-right">
+ <!-- Score Rings -->
+ <div class="score-rings">
+ 
+ <div class="score-ring-container">
+ <svg class="score-ring" viewBox="0 0 120 120">
+ <circle class="ring-bg" cx="60" cy="60" r="50"/>
+ <circle class="ring-progress warning" cx="60" cy="60" r="50"
+ stroke-dasharray="210.48670779051616 103.67255756846316"/>
+ </svg>
+ <div class="ring-content">
+ <span class="ring-value">67</span>
+ <span class="ring-label">Performance</span>
+ </div>
+ </div>
+ 
+ 
+ <div class="score-ring-container">
+ <svg class="score-ring" viewBox="0 0 120 120">
+ <circle class="ring-bg" cx="60" cy="60" r="50"/>
+ <circle class="ring-progress warning" cx="60" cy="60" r="50"
+ stroke-dasharray="216.76989309769573 97.3893722612836"/>
+ </svg>
+ <div class="ring-content">
+ <span class="ring-value">69</span>
+ <span class="ring-label">SEO</span>
+ </div>
+ </div>
+ 
+ </div>
+
+ <!-- Key Metrics -->
+ 
+ <div class="key-metrics">
+ <div class="key-metric">
+ <div class="metric-header">
+ <span class="metric-name">LCP</span>
+ <span class="metric-value-main poor">8.94s</span>
+ </div>
+ <div class="metric-bar-container">
+ <div class="metric-bar-bg">
+ <div class="metric-zone good" style="width: 25%"></div>
+ <div class="metric-zone warning" style="width: 15%"></div>
+ <div class="metric-zone poor" style="width: 60%"></div>
+ </div>
+ <div class="metric-marker" style="left: 89.42999999999999%"></div>
+ </div>
+ <div class="metric-thresholds">
+ <span>0</span>
+ <span>2.5s</span>
+ <span>4s</span>
+ <span>10s+</span>
+ </div>
+ </div>
+ <div class="key-metric">
+ <div class="metric-header">
+ <span class="metric-name">CLS</span>
+ <span class="metric-value-main good">0.01</span>
+ </div>
+ <div class="metric-bar-container">
+ <div class="metric-bar-bg">
+ <div class="metric-zone good" style="width: 40%"></div>
+ <div class="metric-zone warning" style="width: 30%"></div>
+ <div class="metric-zone poor" style="width: 30%"></div>
+ </div>
+ <div class="metric-marker" style="left: 2%"></div>
+ </div>
+ <div class="metric-thresholds">
+ <span>0</span>
+ <span>0.1</span>
+ <span>0.25</span>
+ <span>0.5+</span>
+ </div>
+ </div>
+ <div class="key-metric">
+ <div class="metric-header">
+ <span class="metric-name">TBT</span>
+ <span class="metric-value-main good">20ms</span>
+ </div>
+ <div class="metric-bar-container">
+ <div class="metric-bar-bg">
+ <div class="metric-zone good" style="width: 33%"></div>
+ <div class="metric-zone warning" style="width: 33%"></div>
+ <div class="metric-zone poor" style="width: 34%"></div>
+ </div>
+ <div class="metric-marker" style="left: 2%"></div>
+ </div>
+ <div class="metric-thresholds">
+ <span>0</span>
+ <span>200ms</span>
+ <span>600ms</span>
+ <span>1s+</span>
+ </div>
+ </div>
+ </div>
+ 
+ </div>
+ </section>
+
+ <!-- Summary Cards -->
+ <section class="summary-section">
+ <div class="summary-grid">
+ <div class="summary-card">
+ <div class="summary-icon">📄</div>
+ <div class="summary-value">30</div>
+ <div class="summary-label">Total Pages</div>
+ </div>
+ <div class="summary-card">
+ <div class="summary-icon">🏢</div>
+ <div class="summary-value">4</div>
+ <div class="summary-label">Brands</div>
+ </div>
+ <div class="summary-card status-good">
+ <div class="summary-icon">✅</div>
+ <div class="summary-value">0</div>
+ <div class="summary-label">Passing</div>
+ </div>
+ <div class="summary-card status-warning">
+ <div class="summary-icon">⚠️</div>
+ <div class="summary-value">1</div>
+ <div class="summary-label">Needs Work</div>
+ </div>
+ <div class="summary-card status-poor">
+ <div class="summary-icon">❌</div>
+ <div class="summary-value">29</div>
+ <div class="summary-label">Failing</div>
+ </div>
+ </div>
+ </section>
+
+ <!-- Brand Comparison -->
+ 
+ <section class="brand-comparison-section">
+ <h2 class="section-title">Brand Performance Comparison</h2>
+ <div class="brand-bars">
+ 
+ <div class="brand-bar-row">
+ <span class="brand-bar-label" style="--brand-color: #005696">ERA</span>
+ <div class="brand-bar-track">
+ <div class="brand-bar-fill" style="--brand-color: #005696; --score: 70%">
+ <span class="brand-bar-value">70</span>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="brand-bar-row">
+ <span class="brand-bar-label" style="--brand-color: #b8997b">C21</span>
+ <div class="brand-bar-track">
+ <div class="brand-bar-fill" style="--brand-color: #b8997b; --score: 68%">
+ <span class="brand-bar-value">68</span>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="brand-bar-row">
+ <span class="brand-bar-label" style="--brand-color: #769656">BHG</span>
+ <div class="brand-bar-track">
+ <div class="brand-bar-fill" style="--brand-color: #769656; --score: 66%">
+ <span class="brand-bar-value">66</span>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="brand-bar-row">
+ <span class="brand-bar-label" style="--brand-color: #1b4e96">CBR</span>
+ <div class="brand-bar-track">
+ <div class="brand-bar-fill" style="--brand-color: #1b4e96; --score: 65%">
+ <span class="brand-bar-value">65</span>
+ </div>
+ </div>
+ </div>
+ 
+ </div>
+ <div class="score-scale">
+ <div class="scale-zone poor">0-49 Poor</div>
+ <div class="scale-zone warning">50-89 Needs Work</div>
+ <div class="scale-zone good">90-100 Good</div>
+ </div>
+ </section>
+ 
+
+ <!-- Brand Navigation -->
+ <nav class="brand-nav">
+ <a href="#brand-BHG" class="brand-nav-item" style="--brand-color: #769656">BHG</a><a href="#brand-C21" class="brand-nav-item" style="--brand-color: #b8997b">C21</a><a href="#brand-CBR" class="brand-nav-item" style="--brand-color: #1b4e96">CBR</a><a href="#brand-ERA" class="brand-nav-item" style="--brand-color: #005696">ERA</a>
+ </nav>
+
+ <!-- Brand Sections -->
+ <div class="brands-container">
+ 
+ <section class="brand-section" id="brand-BHG">
+ <div class="brand-header" style="--brand-color: #769656">
+ <div class="brand-header-left">
+ <h2 class="brand-title">BHG</h2>
+ <div class="brand-mini-chart">
+ <span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span>
+ </div>
+ </div>
+ <div class="brand-header-right">
+ <span class="brand-avg-score">Avg: 66</span>
+ <span class="page-count">7 pages</span>
+ </div>
+ </div>
+ <div class="table-wrapper">
+ <table class="metrics-table">
+ <thead>
+ <tr>
+ <th class="col-page">Page</th>
+ <th class="col-metric">LCP</th>
+ <th class="col-metric">CLS</th>
+ <th class="col-metric">TBT*</th>
+ <th class="col-metric">TTFB</th>
+ <th class="col-score">Perf</th>
+ <th class="col-score">SEO</th>
+ <th class="col-status">Status</th>
+ </tr>
+ </thead>
+ <tbody>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-bhgre.personal-dev.cwee.realogydev.com/agent/detail/ca/whittier/agents/anthony-amodeo/aid-Q00200000GPSbcjEQc8jDD63j3vCCKtvEUqC1g8D" target="_blank" rel="noopener">Agent Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.48s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">7ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">355ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">67</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-bhgre.personal-dev.cwee.realogydev.com/agent/list/city/ny/brooklyn?page=1" target="_blank" rel="noopener">Agent List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">10.05s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">11ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">445ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-bhgre.personal-dev.cwee.realogydev.com/" target="_blank" rel="noopener">Home Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">8.10s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">22ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">357ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-bhgre.personal-dev.cwee.realogydev.com/office/detail/ca/whittier/offices/better-homes-and-gardens-real-estate-intelligence/oid-Q00400000GP0y52fTu2eS1j7cnXmHYAYoOMxk2Ir" target="_blank" rel="noopener">Office Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.47s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">7ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">350ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">67</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-bhgre.personal-dev.cwee.realogydev.com/office/list/city/pa/philadelphia" target="_blank" rel="noopener">Office List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.88s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">4ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">412ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-bhgre.personal-dev.cwee.realogydev.com/home/detail/ca/whittier/4140-workman-mill-rd-unit-170/lid-P00800000H17s1GoPsjtP0XnM4YoTIX6TGbc2ddQ" target="_blank" rel="noopener">Property Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.33s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">18ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">441ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-bhgre.personal-dev.cwee.realogydev.com/home/list/city/fl/tampa" target="_blank" rel="noopener">Property List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">6.64s</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">0.003</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">39ms</span>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">1857ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ </tbody>
+ </table>
+ </div>
+ </section>
+ 
+ <section class="brand-section" id="brand-C21">
+ <div class="brand-header" style="--brand-color: #b8997b">
+ <div class="brand-header-left">
+ <h2 class="brand-title">C21</h2>
+ <div class="brand-mini-chart">
+ <span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span>
+ </div>
+ </div>
+ <div class="brand-header-right">
+ <span class="brand-avg-score">Avg: 68</span>
+ <span class="page-count">8 pages</span>
+ </div>
+ </div>
+ <div class="table-wrapper">
+ <table class="metrics-table">
+ <thead>
+ <tr>
+ <th class="col-page">Page</th>
+ <th class="col-metric">LCP</th>
+ <th class="col-metric">CLS</th>
+ <th class="col-metric">TBT*</th>
+ <th class="col-metric">TTFB</th>
+ <th class="col-score">Perf</th>
+ <th class="col-score">SEO</th>
+ <th class="col-status">Status</th>
+ </tr>
+ </thead>
+ <tbody>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/agent/detail/ca/valley-springs/agents/ellen-amundsen/aid-Q00200000G1V6hQT9sVAv8IYTypAKCdaMk7wAyiq" target="_blank" rel="noopener">Agent Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.30s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">56ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">306ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">70</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/agent/list/city/pa/pittsburgh?page=1" target="_blank" rel="noopener">Agent List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">13.21s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">73ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">462ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/" target="_blank" rel="noopener">Home Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">6.69s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">74ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">316ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">67</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/office/detail/ca/sonora/offices/century-21-sierra-properties/oid-Q00400000GTCgMTPBfc0YuECoc2F9RBqCeUMtYkD" target="_blank" rel="noopener">Office Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">13.49s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">63ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">390ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">67</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/office/list/city/pa/pittsburgh?page=1" target="_blank" rel="noopener">Office List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">13.12s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">81ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">438ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">64</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/homes/detail/ca/valley-springs/643-old-course-ct/lid-P00800000GwnpKp6dgC7RBUvK6KOnl6XuDBCbJXl" target="_blank" rel="noopener">Property Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">4.91s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">76ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">367ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">74</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/homes/list/city/ny/queens" target="_blank" rel="noopener">Property List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">6.23s</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">0.008</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">79ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">464ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-c21.personal-dev.cwee.realogydev.com/team/list/city/pa/pittsburgh?page=1" target="_blank" rel="noopener">Team List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">13.32s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">51ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">516ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ </tbody>
+ </table>
+ </div>
+ </section>
+ 
+ <section class="brand-section" id="brand-CBR">
+ <div class="brand-header" style="--brand-color: #1b4e96">
+ <div class="brand-header-left">
+ <h2 class="brand-title">CBR</h2>
+ <div class="brand-mini-chart">
+ <span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span>
+ </div>
+ </div>
+ <div class="brand-header-right">
+ <span class="brand-avg-score">Avg: 65</span>
+ <span class="page-count">8 pages</span>
+ </div>
+ </div>
+ <div class="table-wrapper">
+ <table class="metrics-table">
+ <thead>
+ <tr>
+ <th class="col-page">Page</th>
+ <th class="col-metric">LCP</th>
+ <th class="col-metric">CLS</th>
+ <th class="col-metric">TBT*</th>
+ <th class="col-metric">TTFB</th>
+ <th class="col-score">Perf</th>
+ <th class="col-score">SEO</th>
+ <th class="col-status">Status</th>
+ </tr>
+ </thead>
+ <tbody>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/agent/detail/ca/tehachapi/agents/larry-barrett/aid-Q00200000GMukBBIRgne15L2i4O2bYvvhQwLiIkL" target="_blank" rel="noopener">Agent Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">10.41s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">8ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">335ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/agent/list/city/ny/brooklyn?page=1" target="_blank" rel="noopener">Agent List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">11.43s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">5ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">420ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">65</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/" target="_blank" rel="noopener">Home Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">7.40s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">26ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">402ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">61</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/office/detail/ca/ridgecrest/offices/coldwell-banker-frontier/oid-Q00400000GLo7KvR1eRYsBoSNvQvy5GxEErOm2JO" target="_blank" rel="noopener">Office Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">8.78s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">4ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">349ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/office/list/city/nc/charlotte" target="_blank" rel="noopener">Office List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">10.44s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">6ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">455ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">65</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/real-estate/detail/ca/ridgecrest/601-e-church-ave/lid-P00800000H2Y2l5SFhyWdsiqDqqPw3VRrncQlW6b" target="_blank" rel="noopener">Property Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">8.42s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">10ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">476ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/real-estate/list/city/ny/brooklyn" target="_blank" rel="noopener">Property List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">5.81s</span>
+ </td>
+ <td class="metric-cell status-warning">
+ <span class="metric-value">0.162</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">20ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">420ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">63</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-cbr.personal-dev.cwee.realogydev.com/team/list/city/nc/charlotte?page=1" target="_blank" rel="noopener">Team List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">10.23s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">7ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">454ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">65</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ </tbody>
+ </table>
+ </div>
+ </section>
+ 
+ <section class="brand-section" id="brand-ERA">
+ <div class="brand-header" style="--brand-color: #005696">
+ <div class="brand-header-left">
+ <h2 class="brand-title">ERA</h2>
+ <div class="brand-mini-chart">
+ <span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span><span class="mini-bar warning" style="height: 100%"></span><span class="mini-bar poor" style="height: 100%"></span>
+ </div>
+ </div>
+ <div class="brand-header-right">
+ <span class="brand-avg-score">Avg: 70</span>
+ <span class="page-count">7 pages</span>
+ </div>
+ </div>
+ <div class="table-wrapper">
+ <table class="metrics-table">
+ <thead>
+ <tr>
+ <th class="col-page">Page</th>
+ <th class="col-metric">LCP</th>
+ <th class="col-metric">CLS</th>
+ <th class="col-metric">TBT*</th>
+ <th class="col-metric">TTFB</th>
+ <th class="col-score">Perf</th>
+ <th class="col-score">SEO</th>
+ <th class="col-status">Status</th>
+ </tr>
+ </thead>
+ <tbody>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-era.personal-dev.cwee.realogydev.com/agent/detail/ca/beverly-hills/agents/noushin-ahobim/aid-Q00200000FO0Kr4AagW5sf746l0c5L34Zt2Vexqq" target="_blank" rel="noopener">Agent Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">8.95s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">1ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">350ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">67</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-era.personal-dev.cwee.realogydev.com/agent/list/city/ca/los-angeles?page=1" target="_blank" rel="noopener">Agent List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.39s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">31ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">440ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">66</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-era.personal-dev.cwee.realogydev.com/" target="_blank" rel="noopener">Home Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">6.69s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">3ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">357ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">68</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-era.personal-dev.cwee.realogydev.com/office/detail/ca/beverly-hills/offices/nelson-shelton-real-estate-era-powered/oid-Q00400000FNzwijrMGPBgxLPlIJsLLsO5vLqMVHh" target="_blank" rel="noopener">Office Detail Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.23s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">6ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">345ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">67</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-era.personal-dev.cwee.realogydev.com/office/list/city/fl/tampa" target="_blank" rel="noopener">Office List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">9.09s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">8ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">444ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">67</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-era.personal-dev.cwee.realogydev.com/property/detail/ca/porter-ranch/12553-n-ridgeline-rd/lid-P00800000H2Yb4MarKzjJysl62Ijj2qUMqVn2oww" target="_blank" rel="noopener">Property Detail Page</a>
+ </td>
+ <td class="metric-cell status-warning">
+ <span class="metric-value">3.89s</span>
+ </td>
+ <td class="metric-cell status-unknown">
+ <span class="metric-value">N/A</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">21ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">484ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">80</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-warning">
+ <span class="status-badge">⚠️ Needs Work</span>
+ </td>
+ </tr>
+ 
+ <tr>
+ <td class="page-name">
+ <a href="https://auto-2204-era.personal-dev.cwee.realogydev.com/property/list/city/ca/los-angeles" target="_blank" rel="noopener">Property List Page</a>
+ </td>
+ <td class="metric-cell status-poor">
+ <span class="metric-value">4.91s</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">0.004</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">20ms</span>
+ </td>
+ <td class="metric-cell status-good">
+ <span class="metric-value">419ms</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">75</span>
+ </td>
+ <td class="score-cell status-good">
+ <span class="score-value">69</span>
+ </td>
+ <td class="status-cell status-poor">
+ <span class="status-badge">❌ Poor</span>
+ </td>
+ </tr>
+ 
+ </tbody>
+ </table>
+ </div>
+ </section>
+ 
+ </div>
+
+ <!-- Legend Section -->
+ 
+ <section class="legend-section">
+ <h3 class="legend-title">Thresholds (Google CWV)</h3>
+ <div class="thresholds-visual">
+ <div class="threshold-row">
+ <span class="threshold-label">LCP</span>
+ <div class="threshold-bar">
+ <div class="threshold-zone good" style="flex: 2.5">≤2.5s</div>
+ <div class="threshold-zone warning" style="flex: 1.5">≤4s</div>
+ <div class="threshold-zone poor" style="flex: 6">&gt;4s</div>
+ </div>
+ </div>
+ <div class="threshold-row">
+ <span class="threshold-label">CLS</span>
+ <div class="threshold-bar">
+ <div class="threshold-zone good" style="flex: 4">≤0.1</div>
+ <div class="threshold-zone warning" style="flex: 3">≤0.25</div>
+ <div class="threshold-zone poor" style="flex: 3">&gt;0.25</div>
+ </div>
+ </div>
+ <div class="threshold-row">
+ <span class="threshold-label">TBT</span>
+ <div class="threshold-bar">
+ <div class="threshold-zone good" style="flex: 2">≤200ms</div>
+ <div class="threshold-zone warning" style="flex: 4">≤600ms</div>
+ <div class="threshold-zone poor" style="flex: 4">&gt;600ms</div>
+ </div>
+ </div>
+ <div class="threshold-row">
+ <span class="threshold-label">TTFB</span>
+ <div class="threshold-bar">
+ <div class="threshold-zone good" style="flex: 4">≤800ms</div>
+ <div class="threshold-zone warning" style="flex: 4">≤1800ms</div>
+ <div class="threshold-zone poor" style="flex: 2">&gt;1800ms</div>
+ </div>
+ </div>
+ </div>
+ <p class="note">* TBT (Total Blocking Time) is used as a proxy for INP (Interaction to Next Paint) in lab data.</p>
+ </section>
+ 
+ </main>
+
+ <footer class="footer">
+ <p>Generated by Lighthouse CI • <a href="https://web.dev/vitals/" target="_blank" rel="noopener">Learn about Core Web Vitals</a></p>
+ </footer>
+</body>
+</html>
