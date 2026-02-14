@@ -17,8 +17,8 @@ const experience = [
     location: 'Remote',
     period: 'June 2025 – Present',
     bullets: [
-      'Concurrent with Lowe\'s. Contributing to modernization and SEO optimization of four major real estate brand platforms (BHG, ERA, Coldwell Banker, Century 21) using React, Next.js, and TypeScript',
-      'Built 15+ production-grade pages across four brands using scalable component architecture',
+      'Contributing to modernization and SEO optimization of four major real estate brand platforms (BHGRE, ERA, Coldwell Banker, Century 21) using React, Next.js, and TypeScript',
+      'Built 5+ production-grade pages across four brands using scalable component architecture',
       'Designed reusable sub-navigation and content templating systems adopted across brand sites',
       'Implemented structured data (JSON-LD), metadata standards, and header tagging systems to improve indexing and schema compliance',
       'Architected and built automated Core Web Vitals dashboard from scratch using Google Lighthouse API',
@@ -37,7 +37,7 @@ const experience = [
       'Drove +22.2% conversion rate lift and -76.6% cart abandonment reduction through architecture and UX improvements on the subscription enrollment funnel',
       'Built standalone Address MFE (Fabric) with BFF layer, replacing duplicated address UIs platform-wide across checkout and account surfaces',
       'Achieved -60% cold-start time reduction on checkout pages through bundle optimization, code splitting, and on-demand SDK loading',
-      'Onboarded 40+ engineers to new microfrontend architecture with shared dev tooling, contract testing, and comprehensive documentation',
+      'Onboarded 4+ engineers to new microfrontend architecture with shared dev tooling, contract testing, and comprehensive documentation',
       'Maintained 99.9% checkout uptime during incremental migration from monolith using strangler-fig pattern',
       'Established testing strategy (Jest, RTL, Playwright) achieving >85% coverage on critical revenue paths',
     ],
@@ -61,10 +61,10 @@ const experience = [
     location: 'Plano, TX (Remote)',
     period: '2021 – 2022',
     bullets: [
-      'Built 15+ dealer-facing financial services tools (loan applications, payment calculators, account dashboards) with React, Next.js, and Redux-Saga',
+      'Built 15+ customer-facing financial services tools (payment schedules, payment calculators, account dashboards) with React, Next.js, and Redux-Saga',
       'Achieved full WCAG 2.1 AA accessibility compliance across all customer-facing interfaces',
       'Created shared component library with accessibility baked in, reducing accessibility-related bug reports by 90%',
-      'Implemented SSR with Next.js for dealer portal, meeting <2s page load target on 95th percentile',
+      'Implemented SSR with Next.js for customer portal, meeting <2s page load target on 95th percentile',
       'Built custom hooks (useAriaLive, useFocusTrap, useReducedMotion) that scaled accessibility knowledge across the team',
     ],
   }
@@ -83,7 +83,7 @@ export default function ResumePage() {
               {SITE_CONFIG.title} &middot; {SITE_CONFIG.location}
             </p>
           </div>
-          <Button href="/resume.pdf" external>
+          <Button href="/Rauf_Maharramov_Senior_Software_Engineer.pdf" external>
             <DownloadIcon size={16} />
             Download PDF
           </Button>
@@ -94,8 +94,8 @@ export default function ResumePage() {
         <div className="max-w-3xl">
           <div className="prose-custom">
             <p>
-              Senior Frontend / Full-Stack Engineer with 5+ years of experience building production
-              systems at Fortune 500 companies. Specializing in microfrontend architecture
+              Senior Frontend / Full-Stack Engineer with extensive experience building production 
+              systems at Fortune 500 and multi-brand enterprise platforms. Specializing in microfrontend architecture
               (Webpack Module Federation), performance optimization, SEO engineering, accessibility,
               and developer experience at scale. Track record of measurable business impact: +22.2% conversion
               lifts, -60% cold-start reductions, automated CWV pipelines, and architecture migrations
@@ -147,17 +147,26 @@ export default function ResumePage() {
       </Section>
 
       <Section className="bg-neutral-50 dark:bg-neutral-925">
-        <SectionHeader title="Education" />
-        <div className="max-w-3xl">
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
-            Bachelor of Engineering, Computer Science
-          </h3>
-          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-            Relevant coursework: Data Structures, Algorithms, Software Engineering, Web
-            Development, Database Systems
-          </p>
-        </div>
-      </Section>
+  <SectionHeader title="Education" />
+  <div className="max-w-3xl">
+    <div>
+      <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
+        Associate Degree in Business Administration
+      </h3>
+      <p   className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+        ASA College (Manhattan, NY)
+      </p>
+    </div>
+    <div>
+      <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
+        B.Sc. in Accounting & Finance
+      </h3>
+      <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+        Azerbaijan State University of Economics (Baku, AZ)
+      </p>
+    </div>
+  </div>
+</Section>
     </>
   );
 }

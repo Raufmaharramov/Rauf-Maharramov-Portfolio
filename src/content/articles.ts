@@ -77,7 +77,7 @@ These hooks encoded accessibility knowledge that most developers on the team did
 
 ## The results speak for themselves
 
-After the component library was adopted across the dealer portal, accessibility-related bug reports dropped by 90%. Not because we found and fixed more bugs, but because the architecture made it difficult to create them in the first place.
+After the component library was adopted across the customer portal, accessibility-related bug reports dropped by 90%. Not because we found and fixed more bugs, but because the architecture made it difficult to create them in the first place.
 
 The financial services context made this investment easy to justify — regulatory compliance is a hard requirement. But every team should think this way. The cost of building accessibility in from the start is a fraction of the cost of retrofitting it later.`,
   },

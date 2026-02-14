@@ -14,15 +14,15 @@ export const metadata: Metadata = {
 const experience = [
   {
     period: 'June 2025 – Present',
-    title: 'Senior Frontend Engineer',
-    company: 'Anywhere Real Estate (Contract)',
+    title: 'Senior Frontend Engineer — Strategic Contract Engagement',
+    company: 'Anywhere Real Estate',
     description:
-      'Concurrent with Lowe\'s. Contributing to the modernization and SEO optimization of multi-brand real estate platforms (BHG, ERA, Coldwell Banker, Century 21). Built 15+ production pages, automated Core Web Vitals dashboards with Lighthouse API, and integrated SEO regression detection into CI pipelines.',
+      'Contributing to the modernization and SEO optimization of multi-brand real estate platforms (BHGRE, ERA, Coldwell Banker, Century 21). Built 5+ production pages, automated Core Web Vitals dashboards with Lighthouse API, and integrated SEO regression detection into CI pipelines.',
   },
   {
     period: '2022 – Present',
     title: 'Senior Software Engineer',
-    company: "Lowe's (Full-time)",
+    company: "Lowe's",
     description:
       'Leading microfrontend architecture for subscription, checkout, and address management products using Webpack Module Federation. Delivered +22.2% conversion lift and -60% cold-start reduction across high-traffic e-commerce flows.',
   },
@@ -38,7 +38,7 @@ const experience = [
     title: 'Frontend Engineer',
     company: 'Toyota Financial Services',
     description:
-      'Built accessible financial services interfaces with React, Next.js, and Redux-Saga. Achieved WCAG 2.1 AA compliance and built 15+ dealer-facing tools.',
+      'Built accessible financial services interfaces with React, Next.js, and Redux-Saga. Achieved WCAG 2.1 AA compliance and built 15+ customer-facing tools.',
   }
 ];
 
@@ -61,8 +61,8 @@ export default function AboutPage() {
         <div className="max-w-3xl">
           <div className="prose-custom">
             <p>
-              I am a Senior Frontend / Full-Stack Engineer with 5+ years of experience building
-              production systems at Fortune 500 companies. My work focuses on the intersection of
+              I am a Senior Frontend / Full-Stack Engineer with extensive experience building production systems at Fortune 
+              500 and multi-brand enterprise platforms. My work focuses on the intersection of
               architecture, performance, and developer experience — the kind of engineering that
               makes large teams productive and products reliable at scale.
             </p>

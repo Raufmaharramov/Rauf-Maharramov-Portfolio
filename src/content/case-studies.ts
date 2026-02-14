@@ -16,8 +16,8 @@ export const caseStudies: CaseStudy[] = [
     liveUrl: '/seo-cwv-script.html',
     liveUrlNote: 'Live demo of the Core Web Vitals dashboard built from scratch.',
     metrics: [
-      { value: '15+', label: 'Production pages built' },
-      { value: '4 Brands', label: 'BHG, ERA, C21, CBR' },
+      { value: '5+', label: 'Production pages built' },
+      { value: '4 Brands', label: 'BHGRE, ERA, C21, CBR' },
       { value: 'CI-Integrated', label: 'Automated SEO audits' },
     ],
     detailedDescription: [
@@ -36,7 +36,7 @@ export const caseStudies: CaseStudy[] = [
       'SonarQube code quality gates must pass alongside SEO checks',
     ],
     ownership:
-      'I built 15+ production-grade pages across all four brands using scalable component architecture. I designed reusable sub-navigation and content templating systems adopted across brand sites. I architected the entire Core Web Vitals automation pipeline — from Lighthouse API integration to parallelized brand execution, multi-run averaging logic, and MR-level regression detection.',
+      'I built 5+ production-grade pages across all four brands using scalable component architecture. I designed reusable sub-navigation and content templating systems adopted across brand sites. I architected the entire Core Web Vitals automation pipeline — from Lighthouse API integration to parallelized brand execution, multi-run averaging logic, and MR-level regression detection.',
     technicalDecisions: [
       {
         title: 'Automated CWV dashboard with Lighthouse API',
@@ -62,7 +62,7 @@ export const caseStudies: CaseStudy[] = [
     testingApproach:
       'Built automated Lighthouse CI runs with multi-run averaging for stable CWV measurements. SonarQube integration enforces code quality gates. Structured data is validated against Google\'s Rich Results Test specifications. Visual regression tests ensure consistent rendering across all four brand themes.',
     outcomes: [
-      'Built 15+ production pages across four real estate brands',
+      'Built 5+ production pages across four real estate brands',
       'Designed reusable sub-navigation and content templating systems adopted across brands',
       'Architected automated CWV dashboard providing real-time SEO health visibility',
       'Integrated parallelized SEO audits into CI with multi-brand execution',
@@ -266,22 +266,22 @@ export const caseStudies: CaseStudy[] = [
       'The platform supported sensitive financial data and required high reliability across all customer-facing interfaces.',
     ],
     context:
-      'Toyota Financial Services provides auto lending, leasing, and insurance products through a network of dealerships and direct-to-consumer channels. The platform needed modernization to improve the dealer experience while meeting strict financial industry accessibility and compliance requirements.',
+      'Toyota Financial Services provides auto lending, leasing, and insurance products through a network of dealerships and direct-to-consumer channels. The platform needed modernization to improve the customer experience while meeting strict financial industry accessibility and compliance requirements.',
     constraints: [
       'Financial data handling with strict security and audit requirements',
       'WCAG 2.1 AA compliance mandatory for all customer-facing interfaces',
-      'Complex form workflows (loan applications with 50+ fields, multi-step validation)',
+      'Complex form workflows (payment applications with 50+ fields, multi-step validation)',
       'Must support older browsers used in dealership environments',
       'Real-time data synchronization between dealer and customer views',
       'Regulatory requirements for data display (APR disclosures, truth-in-lending)',
     ],
     ownership:
-      'I owned the frontend development for the dealer-facing tools suite, including the payment management workflow, recurring payment scheduler, and account management dashboard. I was the primary contributor to the accessibility audit remediation effort and established the component testing patterns used across the team.',
+      'I owned the frontend development for the customer-facing tools suite, including the payment management workflow, recurring payment scheduler, and account management dashboard. I was the primary contributor to the accessibility audit remediation effort and established the component testing patterns used across the team.',
     technicalDecisions: [
       {
         title: 'Next.js with server-side rendering',
         description:
-          'Chose Next.js for the dealer portal to leverage SSR for initial page loads (critical for dealership environments with varying network quality) and API routes for BFF patterns that aggregated multiple Toyota backend services.',
+          'Chose Next.js for the customer portal to leverage SSR for initial page loads (critical for dealership environments with varying network quality) and API routes for BFF patterns that aggregated multiple Toyota backend services.',
       },
       {
         title: 'Redux-Saga for complex async workflows',
@@ -367,7 +367,7 @@ export const caseStudies: CaseStudy[] = [
       'Built a comprehensive testing pyramid with unit tests, integration tests using MSW for API mocking, and Cypress E2E tests. Added performance budgets in CI that blocked merges if bundle size regressed.',
     outcomes: [
       '-60% cold-start time for checkout pages',
-      'Onboarded 40+ engineers to the new microfrontend architecture',
+      'Onboarded 4+ engineers to the new microfrontend architecture',
       'Maintained 99.9% uptime during migration with zero payment-impacting incidents',
     ],
     techStack: [
