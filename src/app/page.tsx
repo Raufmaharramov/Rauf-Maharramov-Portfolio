@@ -33,28 +33,26 @@ export default function HomePage() {
     <>
       <Section className="pt-24 pb-16 md:pt-32 md:pb-20">
         <FadeIn>
-          <div className="max-w-3xl">
+          <div className="max-w-4xl">
             <div className="mb-6 inline-flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
               <MapPinIcon size={16} />
-              <span>{SITE_CONFIG.location} &middot; {SITE_CONFIG.timezone}</span>
+              <span>{SITE_CONFIG.location}</span>
             </div>
-            <h1 className="text-4xl font-semibold tracking-tight text-neutral-900 dark:text-white md:text-5xl lg:text-6xl">
-              {SITE_CONFIG.name}
+            <h1 className="text-5xl font-bold tracking-tight text-neutral-900 dark:text-white md:text-6xl lg:text-7xl">
+              <span className="gradient-text">{SITE_CONFIG.name}</span>
             </h1>
-            <p className="mt-2 text-xl text-neutral-500 dark:text-neutral-400 md:text-2xl">
+            <p className="mt-4 text-2xl text-neutral-600 dark:text-neutral-300 md:text-3xl font-medium">
               {SITE_CONFIG.title}
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
-              I architect and scale frontend systems for products used by millions. Specializing in
-              microfrontend architecture, performance optimization, SEO engineering, and accessible
-              interfaces at Fortune 500 companies — with applied AI engineering capability.
+            <p className="mt-8 text-xl leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-3xl">
+              I architect and scale AI-orchestrated systems and frontend platforms for products used by millions. Specializing in conversational AI, data-driven analytics, microfrontend architecture, and performance optimization at Fortune 500 companies.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button href="/work">
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Button href="/work" className="gradient-bg text-white border-0 hover:shadow-glow transition-all duration-300">
                 View Projects
                 <ArrowRightIcon size={16} />
               </Button>
-              <Button href="/contact" variant="secondary">
+              <Button href="/contact" variant="secondary" className="hover:border-accent-400 hover:text-accent-600 transition-all duration-300">
                 <MailIcon size={16} />
                 Get in Touch
               </Button>
@@ -63,22 +61,24 @@ export default function HomePage() {
         </FadeIn>
       </Section>
 
-      <div className="border-y border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-925">
-        <div className="mx-auto max-w-content px-6 py-10">
+      <div className="border-y border-neutral-200 bg-gradient-to-r from-white to-neutral-50 dark:border-neutral-800 dark:from-neutral-950 dark:to-neutral-900">
+        <div className="mx-auto max-w-content px-6 py-12">
           <FadeIn>
-            <p className="mb-6 text-sm font-medium uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-              Enterprise engineering experience
+            <p className="mb-6 text-sm font-semibold uppercase tracking-widest text-accent-600 dark:text-accent-400">
+              Enterprise Engineering Experience
             </p>
-            <div className="flex flex-wrap gap-x-10 gap-y-4">
-              {COMPANIES.map((company) => (
-                <div key={company.name} className="flex items-baseline gap-2">
-                  <span className="text-lg font-semibold text-neutral-700 dark:text-neutral-300">
-                    {company.name}
-                  </span>
-                  <span className="text-sm text-neutral-400 dark:text-neutral-500">
-                    {company.period}
-                  </span>
-                </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {COMPANIES.map((company, i) => (
+                <FadeIn key={company.name} delay={i * 100}>
+                  <div className="group p-4 rounded-xl border border-neutral-200 bg-white hover:border-accent-400 hover:shadow-glow transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900">
+                    <div className="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
+                      {company.name}
+                    </div>
+                    <div className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                      {company.period}
+                    </div>
+                  </div>
+                </FadeIn>
               ))}
             </div>
           </FadeIn>
@@ -206,23 +206,23 @@ export default function HomePage() {
         </FadeIn>
       </Section>
 
-      <Section className="bg-accent-900 dark:bg-neutral-925">
+      <Section className="gradient-bg">
         <FadeIn>
           <div className="text-center">
-            <h2 className="text-3xl font-semibold tracking-tight text-white">
-              Let&apos;s work together
+            <h2 className="text-4xl font-bold tracking-tight text-white animate-fade-in">
+              Let&apos;s Build Something Great Together
             </h2>
-            <p className="mt-3 text-lg text-neutral-400">
-              Open to senior/staff-level roles aligned with EU/UK timezones.
+            <p className="mt-4 text-xl text-white/90 max-w-2xl mx-auto">
+              Open to senior/staff-level roles. Ready to bring AI-orchestrated systems and data-driven solutions to your team.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button href="/resume" className="border-accent-700 text-white hover:bg-accent-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <Button href="/resume" className="bg-white text-accent-600 border-0 hover:bg-neutral-100 hover:scale-105 transition-all duration-300 shadow-lg">
                 <DownloadIcon size={16} />
-                Resume
+                Download Resume
               </Button>
               <Button
                 href={`mailto:${SITE_CONFIG.email}`}
-                className="border-accent-700 text-white hover:bg-accent-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+                className="bg-white/20 text-white border-white/30 hover:bg-white/30 hover:scale-105 transition-all duration-300 backdrop-blur-sm"
                 variant="secondary"
               >
                 <MailIcon size={16} />
@@ -232,7 +232,7 @@ export default function HomePage() {
                 href={SITE_CONFIG.linkedin}
                 variant="secondary"
                 external
-                className="border-accent-700 text-white hover:bg-accent-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+                className="bg-white/20 text-white border-white/30 hover:bg-white/30 hover:scale-105 transition-all duration-300 backdrop-blur-sm"
               >
                 <LinkedInIcon size={16} />
                 LinkedIn

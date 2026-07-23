@@ -26,11 +26,11 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variantStyles: Record<Variant, string> = {
   primary:
-    'bg-accent-600 text-white hover:bg-accent-700 dark:bg-accent-500 dark:text-white dark:hover:bg-accent-600',
+    'bg-gradient-to-r from-accent-500 to-indigo-500 text-white hover:from-accent-600 hover:to-indigo-600 dark:from-accent-400 dark:to-indigo-400 dark:hover:from-accent-500 dark:hover:to-indigo-500 shadow-md hover:shadow-lg',
   secondary:
-    'border border-neutral-300 text-neutral-700 hover:bg-white hover:border-neutral-400 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800',
+    'border border-neutral-300 text-neutral-700 hover:bg-white hover:border-accent-400 hover:text-accent-600 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:border-accent-500 dark:hover:text-accent-400',
   ghost:
-    'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800',
+    'text-neutral-600 hover:text-accent-600 hover:bg-accent-50 dark:text-neutral-400 dark:hover:text-accent-400 dark:hover:bg-accent-900/30',
 };
 
 const sizeStyles: Record<Size, string> = {
@@ -43,7 +43,7 @@ export function Button(props: ButtonProps) {
   const { variant = 'primary', size = 'md', className = '', children } = props;
 
   const baseStyles =
-    'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 dark:focus-visible:outline-accent-400 disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 dark:focus-visible:outline-accent-400 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5';
 
   const classes = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 

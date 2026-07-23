@@ -26,13 +26,12 @@ export default function ContactPage() {
           Get in Touch
         </h1>
         <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
-          I am open to senior/staff-level frontend or full-stack roles aligned with EU/UK
-          timezones. Feel free to reach out for opportunities, collaborations, or just to connect.
+          I am open to senior/staff-level frontend or full-stack roles. Feel free to reach out for opportunities, collaborations, or just to connect.
         </p>
 
         <div className="mt-4 flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
           <MapPinIcon size={16} />
-          <span>{SITE_CONFIG.location} &middot; {SITE_CONFIG.timezone}</span>
+          <span>{SITE_CONFIG.location}</span>
         </div>
 
         <div className="mt-12 space-y-6">
@@ -114,7 +113,7 @@ export default function ContactPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-400" />
-              Remote or hybrid positions aligned with EU/UK timezones
+              Remote or hybrid position.
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-400" />

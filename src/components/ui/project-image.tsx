@@ -1,5 +1,5 @@
 interface ProjectImageProps {
-  variant: 'subscription' | 'checkout' | 'migration' | 'fintech' | 'ai-studio' | 'architecture' | 'address' | 'cwv-dashboard';
+  variant: 'subscription' | 'checkout' | 'migration' | 'fintech' | 'ai-studio' | 'architecture' | 'address' | 'cwv-dashboard' | 'purchase-agent';
   className?: string;
 }
 
@@ -440,6 +440,54 @@ function ArchitectureDiagram() {
   );
 }
 
+function PurchaseAgentAI() {
+  return (
+    <svg viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
+      <rect width="800" height="450" className="fill-neutral-100 dark:fill-neutral-800/50" rx="8" />
+      <rect x="24" y="24" width="752" height="48" rx="6" className="fill-white dark:fill-neutral-800" />
+      <rect x="48" y="40" width="100" height="8" rx="2" className="fill-violet-500/60 dark:fill-violet-400/50" />
+      <circle cx="736" cy="44" r="16" className="fill-violet-500/20 dark:fill-violet-400/20" />
+      <circle cx="736" cy="44" r="8" className="fill-violet-500 dark:fill-violet-400" />
+      <rect x="24" y="88" width="360" height="340" rx="6" className="fill-white dark:fill-neutral-800" />
+      <rect x="44" y="108" width="80" height="6" rx="2" className="fill-neutral-300 dark:fill-neutral-600" />
+      <rect x="44" y="128" width="320" height="44" rx="4" className="fill-violet-50 dark:fill-violet-900/20" />
+      <rect x="60" y="142" width="120" height="5" rx="1" className="fill-violet-400 dark:fill-violet-400/60" />
+      <rect x="60" y="154" width="180" height="4" rx="1" className="fill-neutral-400 dark:fill-neutral-500" />
+      <rect x="44" y="184" width="320" height="44" rx="4" className="fill-neutral-50 dark:fill-neutral-900/50" />
+      <rect x="60" y="198" width="100" height="5" rx="1" className="fill-neutral-400 dark:fill-neutral-500" />
+      <rect x="60" y="210" width="200" height="4" rx="1" className="fill-neutral-300 dark:fill-neutral-600" />
+      <rect x="44" y="240" width="320" height="44" rx="4" className="fill-emerald-50 dark:fill-emerald-900/20" />
+      <rect x="60" y="254" width="80" height="5" rx="1" className="fill-emerald-500 dark:fill-emerald-400" />
+      <rect x="60" y="266" width="160" height="4" rx="1" className="fill-neutral-400 dark:fill-neutral-500" />
+      <rect x="44" y="296" width="320" height="44" rx="4" className="fill-neutral-50 dark:fill-neutral-900/50" />
+      <rect x="60" y="310" width="100" height="5" rx="1" className="fill-neutral-400 dark:fill-neutral-500" />
+      <rect x="60" y="322" width="180" height="4" rx="1" className="fill-neutral-300 dark:fill-neutral-600" />
+      <rect x="44" y="356" width="140" height="28" rx="4" className="fill-violet-500 dark:fill-violet-500" />
+      <rect x="64" y="366" width="100" height="6" rx="1" className="fill-white" />
+      <rect x="416" y="88" width="360" height="160" rx="6" className="fill-white dark:fill-neutral-800" />
+      <rect x="436" y="108" width="80" height="6" rx="2" className="fill-neutral-300 dark:fill-neutral-600" />
+      <rect x="436" y="128" width="320" height="36" rx="4" className="fill-amber-50 dark:fill-amber-900/20" />
+      <rect x="452" y="142" width="100" height="5" rx="1" className="fill-amber-500 dark:fill-amber-400" />
+      <rect x="452" y="154" width="140" height="4" rx="1" className="fill-neutral-400 dark:fill-neutral-500" />
+      <rect x="436" y="176" width="320" height="36" rx="4" className="fill-blue-50 dark:fill-blue-900/20" />
+      <rect x="452" y="190" width="80" height="5" rx="1" className="fill-blue-500 dark:fill-blue-400" />
+      <rect x="452" y="202" width="120" height="4" rx="1" className="fill-neutral-400 dark:fill-neutral-500" />
+      <rect x="416" y="264" width="360" height="164" rx="6" className="fill-white dark:fill-neutral-800" />
+      <rect x="436" y="284" width="80" height="6" rx="2" className="fill-neutral-300 dark:fill-neutral-600" />
+      <circle cx="596" cy="356" r="50" className="fill-none stroke-violet-400/30 dark:stroke-violet-400/20" strokeWidth="8" />
+      <circle cx="596" cy="356" r="50" className="fill-none stroke-violet-500 dark:stroke-violet-400" strokeWidth="8" strokeDasharray="220 314" strokeLinecap="round" transform="rotate(-90 596 356)" />
+      <text x="596" y="352" textAnchor="middle" className="fill-neutral-900 dark:fill-white" fontSize="18" fontWeight="800" fontFamily="sans-serif">78%</text>
+      <text x="596" y="368" textAnchor="middle" className="fill-neutral-400 dark:fill-neutral-500" fontSize="8" fontFamily="sans-serif">AI AUTONOMY</text>
+      <rect x="436" y="324" width="120" height="5" rx="1" className="fill-neutral-300 dark:fill-neutral-600" />
+      <rect x="436" y="340" width="80" height="4" rx="1" className="fill-neutral-200 dark:fill-neutral-700" />
+      <rect x="436" y="356" width="100" height="4" rx="1" className="fill-neutral-200 dark:fill-neutral-700" />
+      <rect x="436" y="372" width="60" height="4" rx="1" className="fill-neutral-200 dark:fill-neutral-700" />
+      <rect x="436" y="388" width="80" height="4" rx="1" className="fill-neutral-200 dark:fill-neutral-700" />
+      <rect x="436" y="404" width="140" height="4" rx="1" className="fill-neutral-200 dark:fill-neutral-700" />
+    </svg>
+  );
+}
+
 const variants: Record<ProjectImageProps['variant'], React.FC> = {
   subscription: SubscriptionDashboard,
   checkout: CheckoutFlow,
@@ -449,6 +497,7 @@ const variants: Record<ProjectImageProps['variant'], React.FC> = {
   architecture: ArchitectureDiagram,
   address: AddressListUI,
   'cwv-dashboard': CWVDashboard,
+  'purchase-agent': PurchaseAgentAI,
 };
 
 export function ProjectImage({ variant, className = '' }: ProjectImageProps) {

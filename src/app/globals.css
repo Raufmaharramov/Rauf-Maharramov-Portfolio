@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @layer base {
   html {
@@ -19,12 +19,44 @@
     @apply bg-accent-500 text-white dark:bg-accent-400 dark:text-neutral-900;
   }
 
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-neutral-100 dark:bg-neutral-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full dark:bg-neutral-700;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400 dark:bg-neutral-600;
+  }
+
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-accent-600 dark:outline-accent-400;
   }
 }
 
 @layer components {
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent-500 to-indigo-500 bg-clip-text text-transparent;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-accent-500 via-accent-600 to-indigo-600;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 dark:bg-neutral-900/80 dark:border-neutral-800;
+  }
+
+  .metric-card {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-glow;
+  }
+
   .prose-custom h2 {
     @apply mb-4 mt-12 text-2xl font-semibold text-neutral-900 dark:text-white;
   }

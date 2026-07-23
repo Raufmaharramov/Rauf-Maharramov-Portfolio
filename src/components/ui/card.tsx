@@ -18,29 +18,29 @@ export function Card({ title, subtitle, description, tags, href, metrics, image,
     return (
       <Link
         href={href}
-        className="group block overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-300 hover:shadow-card-hover dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-accent-700"
+        className="group block overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-card transition-all duration-500 hover:-translate-y-1 hover:border-accent-400 hover:shadow-card-hover hover:shadow-glow dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-accent-500"
       >
-        <div className="aspect-[16/9] overflow-hidden bg-neutral-100 dark:bg-neutral-800/50">
+        <div className="aspect-[16/9] overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800/50 dark:to-neutral-900/50">
           <ProjectImage
-            variant={image as 'subscription' | 'checkout' | 'migration' | 'fintech' | 'ai-studio' | 'architecture' | 'address' | 'cwv-dashboard'}
-            className="border-0 transition-transform duration-500 group-hover:scale-[1.02]"
+            variant={image as 'subscription' | 'checkout' | 'migration' | 'fintech' | 'ai-studio' | 'architecture' | 'address' | 'cwv-dashboard' | 'purchase-agent'}
+            className="border-0 transition-transform duration-700 group-hover:scale-[1.05]"
           />
         </div>
         <div className="p-6">
-          <div className="mb-2 flex items-center gap-3">
-            <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+          <div className="mb-3 flex items-center gap-3">
+            <span className="text-sm font-medium text-accent-600 dark:text-accent-400">
               {subtitle}
             </span>
           </div>
-          <h3 className="mb-2 text-xl font-semibold text-neutral-900 transition-colors group-hover:text-neutral-700 dark:text-white dark:group-hover:text-neutral-200">
+          <h3 className="mb-3 text-xl font-semibold text-neutral-900 transition-colors group-hover:text-accent-600 dark:text-white dark:group-hover:text-accent-400">
             {title}
           </h3>
           <p className="mb-4 line-clamp-2 text-neutral-600 dark:text-neutral-400">{description}</p>
           {metrics && metrics.length > 0 && (
-            <div className="mb-4 flex flex-wrap gap-6">
-              {metrics.map((metric) => (
-                <div key={metric.label}>
-                  <div className="text-lg font-semibold text-neutral-900 dark:text-white">
+            <div className="mb-4 grid grid-cols-3 gap-3">
+              {metrics.slice(0, 3).map((metric) => (
+                <div key={metric.label} className="metric-card rounded-lg bg-neutral-50 p-2 text-center dark:bg-neutral-800">
+                  <div className="text-sm font-semibold text-accent-600 dark:text-accent-400">
                     {metric.value}
                   </div>
                   <div className="text-xs text-neutral-500 dark:text-neutral-400">{metric.label}</div>
@@ -63,22 +63,22 @@ export function Card({ title, subtitle, description, tags, href, metrics, image,
   return (
     <Link
       href={href}
-      className="group block rounded-xl border border-neutral-200 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-300 hover:shadow-card-hover dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-accent-700"
+      className="group block rounded-2xl border border-neutral-200 bg-white p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:border-accent-400 hover:shadow-card-hover hover:shadow-glow dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-accent-500"
     >
       <div className="mb-3 flex items-center gap-3">
-        <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+        <span className="text-sm font-medium text-accent-600 dark:text-accent-400">
           {subtitle}
         </span>
       </div>
-      <h3 className="mb-2 text-xl font-semibold text-neutral-900 transition-colors group-hover:text-neutral-700 dark:text-white dark:group-hover:text-neutral-200">
+      <h3 className="mb-2 text-xl font-semibold text-neutral-900 transition-colors group-hover:text-accent-600 dark:text-white dark:group-hover:text-accent-400">
         {title}
       </h3>
       <p className="mb-4 line-clamp-2 text-neutral-600 dark:text-neutral-400">{description}</p>
       {metrics && metrics.length > 0 && (
-        <div className="mb-4 flex gap-6">
-          {metrics.map((metric) => (
-            <div key={metric.label}>
-              <div className="text-lg font-semibold text-neutral-900 dark:text-white">
+        <div className="mb-4 grid grid-cols-2 gap-3">
+          {metrics.slice(0, 2).map((metric) => (
+            <div key={metric.label} className="metric-card rounded-lg bg-neutral-50 p-2 text-center dark:bg-neutral-800">
+              <div className="text-sm font-semibold text-accent-600 dark:text-accent-400">
                 {metric.value}
               </div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400">{metric.label}</div>

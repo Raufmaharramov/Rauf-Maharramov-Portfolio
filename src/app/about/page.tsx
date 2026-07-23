@@ -13,32 +13,32 @@ export const metadata: Metadata = {
 
 const experience = [
   {
-    period: 'June 2025 – Present',
-    title: 'Senior Frontend Engineer — Strategic Contract Engagement',
-    company: 'Anywhere Real Estate',
-    description:
-      'Contributing to the modernization and SEO optimization of multi-brand real estate platforms (BHGRE, ERA, Coldwell Banker, Century 21). Built 5+ production pages, automated Core Web Vitals dashboards with Lighthouse API, and integrated SEO regression detection into CI pipelines.',
-  },
-  {
-    period: '2022 – Present',
+    period: 'June 2022 – Present',
     title: 'Senior Software Engineer',
     company: "Lowe's",
     description:
-      'Leading microfrontend architecture for subscription, checkout, and address management products using Webpack Module Federation. Delivered +22.2% conversion lift and -60% cold-start reduction across high-traffic e-commerce flows.',
+      'Co-engineered next-gen AI Purchase Agent (Mylow), built Grafana/Elasticsearch observability dashboards, architected microfrontends for subscription/checkout/address products, and delivered +22.2% conversion lift with -76.6% cart abandonment reduction.',
   },
   {
-    period: '2022',
-    title: 'Frontend Engineer — Migration Lead',
+    period: 'June 2025 – March 2026',
+    title: 'Senior Frontend Engineer – SEO & Performance (Contract)',
+    company: 'Anywhere Real Estate',
+    description:
+      'Modernized four enterprise real estate platforms (BHGRE, ERA, Coldwell Banker, Century 21) using Next.js, React, and TypeScript. Built automated Lighthouse API performance monitoring integrated into CI/CD pipelines.',
+  },
+  {
+    period: 'April 2022 – June 2022',
+    title: 'Senior Software Engineer',
     company: "Macy's",
     description:
-      'Led the migration of the global site header from Backbone/Marionette to Vue 3 + TypeScript. Achieved 100% feature parity with -35% bundle size reduction serving ~2M daily active users.',
+      'Led migration of global site header from Backbone/Marionette to Vue 3 + TypeScript, achieving 100% feature parity with -35% bundle size reduction serving ~2M daily active users.',
   },
   {
-    period: '2021 – 2022',
-    title: 'Frontend Engineer',
+    period: 'November 2021 – April 2022',
+    title: 'Software Engineer',
     company: 'Toyota Financial Services',
     description:
-      'Built accessible financial services interfaces with React, Next.js, and Redux-Saga. Achieved WCAG 2.1 AA compliance and built 15+ customer-facing tools.',
+      'Built 15+ customer-facing financial tools with React, Next.js, and Redux-Saga; achieved WCAG 2.1 AA compliance and met <2s page load targets via Server-Side Rendering.',
   }
 ];
 
@@ -61,28 +61,13 @@ export default function AboutPage() {
         <div className="max-w-3xl">
           <div className="prose-custom">
             <p>
-              I am a Senior Frontend / Full-Stack Engineer with extensive experience building production systems at Fortune 
-              500 and multi-brand enterprise platforms. My work focuses on the intersection of
-              architecture, performance, and developer experience — the kind of engineering that
-              makes large teams productive and products reliable at scale.
+              I am a Senior Software Engineer with 6+ years of experience delivering enterprise-scale web platforms for Fortune 500 organizations including Lowe's, Anywhere Real Estate, Macy's, and Toyota Financial Services. Specialized in React, TypeScript, Node.js, microfrontend architecture, performance engineering, and AI-powered commerce experiences serving millions of customers.
             </p>
             <p>
-              Currently I work full-time at Lowe&apos;s, where I lead frontend architecture for
-              subscription, checkout, and address management products — high-traffic, revenue-critical
-              flows built on microfrontend architecture using Webpack Module Federation. Concurrently,
-              I contribute as a contract engineer at Anywhere Real Estate, optimizing SEO and Core Web
-              Vitals across four major real estate brands. Before that, I led a legacy-to-modern
-              migration at Macy&apos;s and built accessible financial services interfaces at Toyota.
+              Currently I work full-time at Lowe's, where I co-engineered the next-generation AI Purchase Agent (Mylow) and built comprehensive observability systems using Grafana, Elasticsearch, and Adobe Analytics. I also architected high-impact microfrontends using Webpack Module Federation, delivering +22.2% conversion lift and -76.6% cart abandonment reduction. Concurrently, I contributed as a contract engineer at Anywhere Real Estate, optimizing SEO and Core Web Vitals across four major real estate brands.
             </p>
             <p>
-              I care deeply about code that is not just functional, but maintainable, accessible,
-              and fast. I have shipped features that measurably improved conversion rates, reduced
-              page load times, and eliminated entire categories of bugs through better architecture
-              and testing practices.
-            </p>
-            <p>
-              I am currently based in Pittsburgh, PA and relocating to Turkey. I am open to
-              senior/staff-level roles aligned with EU/UK timezones — remote or hybrid.
+              I care deeply about code that is not just functional, but maintainable, accessible, and fast. I have shipped features that measurably improved conversion rates, reduced page load times, and eliminated entire categories of bugs through better architecture and testing practices.
             </p>
           </div>
         </div>

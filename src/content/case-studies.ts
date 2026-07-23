@@ -2,6 +2,93 @@ import { CaseStudy } from '@/lib/types';
 
 export const caseStudies: CaseStudy[] = [
   {
+    slug: 'lowes-purchase-agent-ai',
+    title: 'Purchase Agent AI — Conversational Commerce Super Agent',
+    company: "Lowe's",
+    period: '2024–Present',
+    summary:
+      'AI-orchestrated conversational commerce agent that understands context, adapts to shoppers, and guides customers from discovery to order completion with natural interruption handling.',
+    role: 'Senior Software Engineer',
+    tags: ['AI', 'conversational-ai', 'analytics', 'grafana', 'elasticsearch', 'architecture'],
+    featured: true,
+    category: 'flagship',
+    image: 'purchase-agent',
+    liveUrl: 'https://www.lowes.com/',
+    liveUrlNote: 'Tap on Mylow icon to experience the Purchase Agent.',
+    metrics: [
+      { value: 'AI-Orchestrated', label: 'Deterministic to AI transformation' },
+      { value: 'Context-Aware', label: 'Natural interruption handling' },
+      { value: 'Data-Driven', label: 'Grafana + Elasticsearch metrics' },
+    ],
+    detailedDescription: [
+      'Lowe\'s Purchase Agent represents a fundamental shift from traditional checkout workflows to a true AI-orchestrated conversational commerce experience. Instead of forcing customers through rigid sequences (add to cart → select fulfillment → choose services → review → payment), the new system understands context, adapts to individual shoppers, and handles interruptions naturally.',
+      'I contributed to the architectural transformation from deterministic workflows to an AI-orchestrated system with stronger state management, typed tools, and scalable foundations. This included implementing installation services integration, building comprehensive analytics infrastructure, and creating data-driven insights to optimize the agent\'s decision-making.',
+      'The agent now maintains conversation context across product discovery, service comparisons, fulfillment changes, cart modifications, and checkout — guiding customers seamlessly while keeping momentum toward order completion.',
+    ],
+    context:
+      'The previous purchase agent followed a traditional linear checkout journey. If customers asked unexpected questions, changed direction, or wanted to explore options, the experience broke and escalated to live agents. We were using AI to enforce workflows rather than truly helping customers. The goal was to reimagine the entire experience as a personalized, adaptive conversational agent.',
+    constraints: [
+      'Major architectural transformation from deterministic to AI-orchestrated system',
+      'Must maintain context across complex multi-turn conversations',
+      'Natural interruption handling without losing purchase momentum',
+      'Real-time integration with installation services and fulfillment systems',
+      'Analytics infrastructure to track agent handoff reasons and optimization opportunities',
+      'Strong state management and typed tool contracts for reliability',
+    ],
+    ownership:
+      'I owned the analytics and metrics infrastructure for the Purchase Agent, including Grafana dashboard creation for tracking order failure reasons, Elasticsearch integration for extracting error patterns, and Adobe Analytics implementation for tracking key engagement metrics. I implemented installation services integration into the agent and worked on identifying and documenting add-to-cart failures and live agent handoff reasons to reduce cart abandonment.',
+    technicalDecisions: [
+      {
+        title: 'Grafana dashboard for order failure metrics',
+        description:
+          'Built comprehensive Grafana dashboards to track order failure reasons during the purchase agent experience. This provided real-time visibility into where the AI agent struggled and needed human intervention, enabling data-driven optimization decisions.',
+      },
+      {
+        title: 'Elasticsearch-based error pattern analysis',
+        description:
+          'Implemented Elasticsearch integration to extract and analyze the most frequently occurring errors that caused the AI agent to hand off to human agents. This analysis identified root causes of agent limitations and guided improvements to the AI\'s decision-making capabilities.',
+      },
+      {
+        title: 'Installation services integration',
+        description:
+          'Integrated installation services directly into the Purchase Agent conversation flow, enabling customers to explore, compare, and select service options naturally without breaking the conversational context or requiring manual navigation.',
+      },
+      {
+        title: 'Adobe Analytics for engagement tracking',
+        description:
+          'Implemented Adobe Analytics to track critical engagement metrics throughout the purchase agent experience, providing insights into user behavior, drop-off points, and conversion optimization opportunities.',
+      },
+      {
+        title: 'Live agent handoff analysis',
+        description:
+          'Documented and analyzed live agent handoff reasons to understand what scenarios the AI agent couldn\'t handle autonomously. This analysis directly informed improvements to reduce unnecessary handoffs and increase AI agent autonomy.',
+      },
+    ],
+    testingApproach:
+      'Used data-driven testing approaches with A/B testing for agent behavior variations. Validated analytics accuracy through manual verification against known user journeys. Implemented comprehensive error tracking and monitoring for the AI orchestration layer.',
+    outcomes: [
+      'Contributed to major architectural transformation from deterministic to AI-orchestrated commerce system',
+      'Built comprehensive analytics infrastructure with Grafana dashboards for real-time metrics',
+      'Implemented installation services integration enabling seamless service selection in conversation',
+      'Identified and documented key failure patterns reducing unnecessary live agent handoffs',
+      'Enabled data-driven optimization of AI agent decision-making through Elasticsearch analysis',
+      'Recognized as key contributor in LinkedIn announcement by Lowe\'s leadership',
+    ],
+    techStack: [
+      'React',
+      'TypeScript',
+      'AI/ML',
+      'Grafana',
+      'Elasticsearch',
+      'Adobe Analytics',
+      'Conversational AI',
+      'State Management',
+      'API Integration',
+      'Analytics',
+      'Node.js',
+    ],
+  },
+  {
     slug: 'anywhere-real-estate-seo-cwv',
     title: 'Multi-Brand SEO & Core Web Vitals Platform',
     company: 'Anywhere Real Estate',

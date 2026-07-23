@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Section } from '@/components/ui/section';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -109,10 +110,23 @@ export default function CaseStudyPage({ params }: PageProps) {
       {study.image && (
         <div className="mx-auto max-w-content px-6 pb-8">
           <FadeIn delay={100}>
-            <ProjectImage
-              variant={study.image as 'subscription' | 'checkout' | 'migration' | 'fintech' | 'ai-studio' | 'architecture' | 'address' | 'cwv-dashboard'}
-              className="w-full"
-            />
+            {study.slug === 'lowes-purchase-agent-ai' ? (
+              <div className="relative w-full rounded-2xl border border-neutral-200 shadow-lg dark:border-neutral-800 overflow-hidden">
+                <Image
+                  src="/images/purchase-agent-ai.gif"
+                  alt="Purchase Agent AI Demo"
+                  width={800}
+                  height={450}
+                  className="w-full"
+                  unoptimized
+                />
+              </div>
+            ) : (
+              <ProjectImage
+                variant={study.image as 'subscription' | 'checkout' | 'migration' | 'fintech' | 'ai-studio' | 'architecture' | 'address' | 'cwv-dashboard' | 'purchase-agent'}
+                className="w-full"
+              />
+            )}
           </FadeIn>
         </div>
       )}

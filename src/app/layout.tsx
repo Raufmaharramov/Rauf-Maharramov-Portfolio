@@ -12,6 +12,28 @@ export const metadata: Metadata = {
     template: `%s — ${SITE_CONFIG.name}`,
   },
   description: SITE_CONFIG.description,
+  keywords: [
+    'Senior Software Engineer',
+    'Full-Stack Developer',
+    'AI Engineer',
+    'Conversational AI',
+    'React Developer',
+    'Next.js',
+    'TypeScript',
+    'Microfrontend Architecture',
+    'Performance Optimization',
+    'Grafana',
+    'Elasticsearch',
+    'Adobe Analytics',
+    'Fortune 500',
+    'Lowe\'s',
+    'Anywhere Real Estate',
+    'Macy\'s',
+    'Toyota Financial Services',
+    'Software Architecture',
+    'Frontend Engineering',
+    'Data-Driven Analytics',
+  ].join(', '),
   openGraph: {
     title: `${SITE_CONFIG.name} — ${SITE_CONFIG.title}`,
     description: SITE_CONFIG.description,
@@ -32,6 +54,9 @@ export const metadata: Metadata = {
       index: true,
       follow: true,
     },
+  },
+  verification: {
+    google: 'google-site-verification',
   },
 };
 

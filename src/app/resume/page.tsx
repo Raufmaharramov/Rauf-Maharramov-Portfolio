@@ -12,60 +12,53 @@ export const metadata: Metadata = {
 
 const experience = [
   {
-    title: 'Senior Frontend Engineer',
-    company: 'Anywhere Real Estate (Contract)',
+    title: 'Senior Software Engineer',
+    company: "Lowe's",
     location: 'Remote',
-    period: 'June 2025 – Present',
+    period: 'June 2022 – Present',
     bullets: [
-      'Contributing to modernization and SEO optimization of four major real estate brand platforms (BHGRE, ERA, Coldwell Banker, Century 21) using React, Next.js, and TypeScript',
-      'Built 5+ production-grade pages across four brands using scalable component architecture',
-      'Designed reusable sub-navigation and content templating systems adopted across brand sites',
-      'Implemented structured data (JSON-LD), metadata standards, and header tagging systems to improve indexing and schema compliance',
-      'Architected and built automated Core Web Vitals dashboard from scratch using Google Lighthouse API',
-      'Integrated parallelized SEO performance audits into CI pipelines with multi-run averaging for accuracy',
-      'Automated SEO regression detection per merge request to prevent performance degradation before production',
-      'Improved code quality metrics through SonarQube remediation and frontend refactoring initiatives',
+      'Co-engineered next-gen AI Purchase Agent (Mylow) transitioning from deterministic checkout to AI-orchestrated conversational commerce with typed tools and context-aware state management',
+      'Engineered Grafana operational dashboards and queried Elasticsearch production logs to analyze purchase failure metrics, identify cart abandonment causes, and reduce unnecessary live-agent handoffs',
+      'Integrated installation services directly within AI Purchase Agent, enabling customers to configure complex service options without leaving the conversational experience',
+      'Instrumented Adobe Analytics across conversational purchasing flows to capture granular user interactions, intent shifts, feature adoption, and funnel progression',
+      'Architected high-impact microfrontends using Module Federation (Webpack) across subscription (HomeCare+), address management (Fabric MFE), and checkout surfaces serving millions of daily users',
+      'Delivered +22.2% conversion rate lift and -76.6% reduction in cart abandonment on subscription enrollment flows through microfrontend architecture and streamlined UX',
+      'Achieved ~60% load time reduction on critical checkout surfaces via bundle minimization, dynamic imports, and on-demand third-party SDK loading',
+      'Built and deployed unified Address MFE with BFF layer, replacing duplicated address UIs across checkout and customer account surfaces platform-wide',
+      'Maintained 99.9% uptime during incremental monolith decomposition using Strangler-Fig pattern, backed by GCP observability (Prometheus, GoAlert, Pharos)',
+      'Mentored 4+ engineers adopting microfrontend architectures and established comprehensive automated testing strategies (Jest, RTL, Playwright) achieving >85% test coverage',
+    ],
+  },
+  {
+    title: 'Senior Frontend Engineer – SEO & Performance (Contract)',
+    company: 'Anywhere Real Estate',
+    location: 'Remote',
+    period: 'June 2025 – March 2026',
+    bullets: [
+      'Modernized four enterprise real estate platforms (Better Homes and Gardens Real Estate, ERA, Coldwell Banker, Century 21) using Next.js, React, and TypeScript',
+      'Built automated Lighthouse API performance monitoring dashboard integrated into CI/CD pipelines to catch SEO and performance regressions prior to production release',
+      'Implemented structured data (JSON-LD), metadata standards, and content sub-navigation systems to improve search engine indexing and schema compliance across brand platforms',
+      'Refactored legacy frontend modules and resolved SonarQube technical debt to enforce strict architectural quality standards',
     ],
   },
   {
     title: 'Senior Software Engineer',
-    company: "Lowe's (Full-time)",
-    location: 'Charlotte, NC (Remote)',
-    period: '2022 – Present',
-    bullets: [
-      'Lead microfrontend architecture for subscription (HomeCare+), checkout, and address management products using Webpack Module Federation, serving millions of daily users on lowes.com',
-      'Drove +22.2% conversion rate lift and -76.6% cart abandonment reduction through architecture and UX improvements on the subscription enrollment funnel',
-      'Built standalone Address MFE (Fabric) with BFF layer, replacing duplicated address UIs platform-wide across checkout and account surfaces',
-      'Achieved -60% cold-start time reduction on checkout pages through bundle optimization, code splitting, and on-demand SDK loading',
-      'Onboarded 4+ engineers to new microfrontend architecture with shared dev tooling, contract testing, and comprehensive documentation',
-      'Maintained 99.9% checkout uptime during incremental migration from monolith using strangler-fig pattern',
-      'Established testing strategy (Jest, RTL, Playwright) achieving >85% coverage on critical revenue paths',
-    ],
-  },
-  {
-    title: 'Frontend Engineer — Migration Lead',
     company: "Macy's",
-    location: 'New York, NY (Remote)',
-    period: '2022',
+    location: 'Hybrid',
+    period: 'April 2022 – June 2022',
     bullets: [
-      'Led migration of global site header from Backbone/Marionette to Vue 3 + TypeScript, serving ~2M daily active users',
-      'Achieved 100% feature parity with -35% JavaScript bundle size reduction',
-      'Built accessible mega navigation menu with ARIA roles, keyboard navigation, and screen reader support, resolving 12 known accessibility issues',
-      'Designed bridge layer for incremental migration, enabling new Vue header to coexist with legacy Backbone modules',
-      'Created migration playbook adopted by 3 other teams for their component modernizations',
+      'Led migration of global site header (~2M daily active users) from legacy Backbone/Marionette to Vue 3 and TypeScript, achieving 100% feature parity while cutting JavaScript bundle size by 35%',
+      'Built accessible mega-navigation menu compliant with WCAG AA standards and authored incremental migration bridge pattern adopted by 3 cross-functional engineering teams',
     ],
   },
   {
-    title: 'Frontend Engineer',
+    title: 'Software Engineer',
     company: 'Toyota Financial Services',
-    location: 'Plano, TX (Remote)',
-    period: '2021 – 2022',
+    location: 'Remote',
+    period: 'November 2021 – April 2022',
     bullets: [
-      'Built 15+ customer-facing financial services tools (payment schedules, payment calculators, account dashboards) with React, Next.js, and Redux-Saga',
-      'Achieved full WCAG 2.1 AA accessibility compliance across all customer-facing interfaces',
-      'Created shared component library with accessibility baked in, reducing accessibility-related bug reports by 90%',
-      'Implemented SSR with Next.js for customer portal, meeting <2s page load target on 95th percentile',
-      'Built custom hooks (useAriaLive, useFocusTrap, useReducedMotion) that scaled accessibility knowledge across the team',
+      'Built 15+ customer-facing financial tools (payment calculators, account portals) using React, Next.js, and Redux-Saga; met <2s page load targets (95th percentile) via Server-Side Rendering (SSR)',
+      'Created custom accessibility hooks (useAriaLive, useFocusTrap) and enforced WCAG 2.1 AA standards across components, reducing accessibility bug reports by 90%',
     ],
   }
 ];
@@ -94,12 +87,10 @@ export default function ResumePage() {
         <div className="max-w-3xl">
           <div className="prose-custom">
             <p>
-              Senior Frontend / Full-Stack Engineer with extensive experience building production 
-              systems at Fortune 500 and multi-brand enterprise platforms. Specializing in microfrontend architecture
-              (Webpack Module Federation), performance optimization, SEO engineering, accessibility,
-              and developer experience at scale. Track record of measurable business impact: +22.2% conversion
-              lifts, -60% cold-start reductions, automated CWV pipelines, and architecture migrations
-              serving millions of users.
+              Data-driven Senior Software Engineer with 6+ years of experience delivering enterprise-scale web platforms for Fortune 500 organizations including Lowe's, Anywhere Real Estate, Macy's, and Toyota Financial Services. Specialized in React, TypeScript, Node.js, microfrontend architecture, performance engineering, and AI-powered commerce experiences serving millions of customers.
+            </p>
+            <p>
+              Proven track record of driving high-impact revenue metrics (+22.2% conversion rate lift, -76.6% cart abandonment) and engineering AI observability systems (Elasticsearch, Grafana, Adobe Analytics) to analyze customer behavior, mitigate live-agent handoffs, and optimize conversational checkout flows.
             </p>
           </div>
         </div>

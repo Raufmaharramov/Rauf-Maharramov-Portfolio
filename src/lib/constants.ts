@@ -1,14 +1,13 @@
 export const SITE_CONFIG = {
   name: 'Rauf Maharramov',
-  title: 'Senior Frontend / Full-Stack Engineer',
+  title: 'Senior Software Engineer · AI & Full-Stack Specialist',
   description:
-    'Senior Frontend / Full-Stack Engineer specializing in large-scale React applications, microfrontends, performance optimization, and accessible user experiences.',
+    'Senior Software Engineer specializing in AI-orchestrated systems, microfrontend architecture, performance optimization, and data-driven analytics at Fortune 500 companies.',
   url: 'https://raufmaharramov.com',
   email: 'rauf.maharramov@gmail.com',
   linkedin: 'https://www.linkedin.com/in/rauf-maharramov/',
   github: 'https://github.com/raufmaharramov',
-  location: 'Pittsburgh, PA → Relocating to Turkey',
-  timezone: 'EU/UK timezone-friendly',
+  location: 'Pittsburgh, PA',
 } as const;
 
 export const NAV_LINKS = [
@@ -24,6 +23,11 @@ export const TECH_STACK = [
   'React',
   'Next.js',
   'TypeScript',
+  'AI/ML',
+  'Conversational AI',
+  'Grafana',
+  'Elasticsearch',
+  'Adobe Analytics',
   'Module Federation',
   'Vite',
   'Webpack',
@@ -37,7 +41,6 @@ export const TECH_STACK = [
   'Jest',
   'Cypress',
   'Prometheus',
-  'Elasticsearch',
   'Lighthouse API',
   'SonarQube',
   'JSON-LD',
@@ -71,8 +74,8 @@ export const OPTIMIZATION_AREAS = [
 ] as const;
 
 export const COMPANIES = [
-  { name: 'Anywhere Real Estate', period: '2025–Present · Contract' },
-  { name: "Lowe's", period: '2022–Present · Full-time' },
-  { name: "Macy's", period: '2022' },
-  { name: 'Toyota Financial Services', period: '2021–2022' },
+  { name: "Lowe's", period: 'June 2022 – Present' },
+  { name: 'Anywhere Real Estate', period: 'June 2025 – March 2026' },
+  { name: "Macy's", period: 'April 2022 – June 2022' },
+  { name: 'Toyota Financial Services', period: 'November 2021 – April 2022' },
 ] as const;

@@ -13,11 +13,11 @@ export function Badge({
   onClick,
   active,
 }: BadgeProps) {
-  const baseStyles = 'inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-colors duration-150';
+  const baseStyles = 'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold transition-all duration-300 hover:scale-105';
 
   const variants = {
-    default: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300',
-    outline: 'border border-neutral-200 text-neutral-600 dark:border-neutral-700 dark:text-neutral-400',
+    default: 'bg-gradient-to-r from-accent-500 to-indigo-500 text-white dark:from-accent-400 dark:to-indigo-400',
+    outline: 'border border-accent-200 text-accent-700 hover:border-accent-400 hover:bg-accent-50 dark:border-accent-800 dark:text-accent-300 dark:hover:border-accent-600 dark:hover:bg-accent-900/30',
   };
 
   const activeStyles = active
