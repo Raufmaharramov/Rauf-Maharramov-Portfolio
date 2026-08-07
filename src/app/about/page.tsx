@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, MapPinIcon } from '@/components/ui/icons';
 import { SITE_CONFIG, TECH_STACK } from '@/lib/constants';
+import { ToptalBadge } from '@/components/toptal-badge';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -68,6 +69,9 @@ export default function AboutPage() {
             </p>
             <p>
               I care deeply about code that is not just functional, but maintainable, accessible, and fast. I have shipped features that measurably improved conversion rates, reduced page load times, and eliminated entire categories of bugs through better architecture and testing practices.
+            <div className="mt-8 flex justify-start">
+              <ToptalBadge />
+            </div>
             </p>
           </div>
         </div>

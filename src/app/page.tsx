@@ -18,6 +18,7 @@ import {
 import { SITE_CONFIG, TECH_STACK, OPTIMIZATION_AREAS, COMPANIES } from '@/lib/constants';
 import { getFlagshipStudies } from '@/content/case-studies';
 import { aiProjects } from '@/content/ai-projects';
+import { ToptalBadge } from '@/components/toptal-badge';
 
 const iconMap: Record<string, React.FC<{ className?: string; size?: number }>> = {
   zap: ZapIcon,
@@ -47,6 +48,9 @@ export default function HomePage() {
             <p className="mt-8 text-xl leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-3xl">
               I architect and scale AI-orchestrated systems and frontend platforms for products used by millions. Specializing in conversational AI, data-driven analytics, microfrontend architecture, and performance optimization at Fortune 500 companies.
             </p>
+            <div className="mt-6 flex justify-start">
+              <ToptalBadge />
+            </div>
             <div className="mt-10 flex flex-wrap gap-4">
               <Button href="/work" className="gradient-bg text-white border-0 hover:shadow-glow transition-all duration-300">
                 View Projects

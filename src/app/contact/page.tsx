@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { MailIcon, LinkedInIcon, GitHubIcon, CopyIcon, CheckIcon, MapPinIcon } from '@/components/ui/icons';
 import { SITE_CONFIG } from '@/lib/constants';
 
+import { ToptalBadge } from '@/components/toptal-badge';
+
 export default function ContactPage() {
   const [copied, setCopied] = useState(false);
 
@@ -100,6 +102,10 @@ export default function ContactPage() {
               </div>
             </a>
           </div>
+        </div>
+
+        <div className="mt-12 flex justify-center">
+          <ToptalBadge />
         </div>
 
         <div className="mt-12 rounded-xl bg-neutral-50 p-6 dark:bg-neutral-900">
